@@ -1,0 +1,37 @@
+name: Create-ec2
+
+on:
+    workflow_dispatch:
+        inputs:
+            ec2-name:
+                description: EC2 name
+                required: true
+                default: 'App server'
+                type: string
+jobs: 
+    cretate-ec2:
+        runs-on: ubuntu_latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with: 
+                aws-access-key-id: '@{{ secrets.TF_USER_AWS_KEY}}'
+                aws-secret-access-key: '@{{ secrets.TF_USER_AWS_SECRET }}'
+                aws-region: us-east-1
+
+            - name: Setup terraform
+              uses: hashicorp/setup-terraform@v3
+              with: 
+                terraform_wrapper: false
+            - name: terraform Apply
+              id:   apply
+              env: 
+                TF_VAR_ec2_name: "${{ github.event.inputs.ec2-name}}"
+              run: |
+                cd terraform/
+                terraform init 
+                terraform validate
+                terraform plan 
+                terraform apply -auto-aprove
+
