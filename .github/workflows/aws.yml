@@ -6,7 +6,7 @@ on:
             ec2-name:
                 description: EC2 name
                 required: true
-                default: 'App server'
+                default: 'ec2'
                 type: string
 jobs: 
     create-ec2:
