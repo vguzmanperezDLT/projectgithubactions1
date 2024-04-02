@@ -10,7 +10,7 @@ on:
                 type: string
 jobs: 
     cretate-ec2:
-        runs-on: ubuntu_latest
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - name: Configure AWS credentials
