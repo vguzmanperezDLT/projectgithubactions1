@@ -1,24 +1,13 @@
-data "aws_ami" "ubuntu" {
-    most_recent = true
-
-    filter {
-        name = "name"
-        values = ["hvm"]
-    }
-
-    owners = ["099720109477"]
-}
 
 provider "aws" {
-    region= "us-east-1"
+  region  = "us-west-2"
 }
 
-resource "aws_instance" "app_server" {
-    ami     = data.aws.ami.ubuntu.id
-    instance_type = "t2.micro"
-    key_name = "app_ssh_key"
+resource "aws_instance" "example_server" {
+  ami           = "ami-04e914639d0cca79a"
+  instance_type = "t2.micro"
 
-    tags = {
-        Name = var.ec2_name
-    }
+  tags = {
+    Name = var.ec2_name
+  }
 }
